@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem
 {
-    internal enum CommandType
+    public enum OfferResult
     {
-        Driver,
-        Shipment,
-        Offer,
-        End,
+        Accept,
+        Pass,
+        Expire,
     }
 }
