@@ -8,8 +8,8 @@ namespace ConvoyOfferSystem
 {
     public enum OfferResult
     {
-        Accept,
-        Pass,
-        Expire,
+        accept,
+        pass,
+        expire,
     }
 }

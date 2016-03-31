@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem
 {
-    public class ConsoleOutputOfferSystem : IOfferSystem
+    public class OfferSystem
     {
-        private const string _noValidDriversString = "NOBODY";
         SortedSet<Driver> _availableDrivers;
         Dictionary<string, Driver> _nameToDriver;
         Dictionary<int, int> _shipmentToCapacity;
 
-        public ConsoleOutputOfferSystem()
+        public OfferSystem()
         {
             _availableDrivers = new SortedSet<Driver>();
             _nameToDriver = new Dictionary<string, Driver>();
@@ -31,28 +30,15 @@ namespace ConvoyOfferSystem
         public string Shipment(int shipmentId, int capacity)
         {
             _shipmentToCapacity.Add(shipmentId, capacity);
-
-            // or is it capacity - 1?
-            var candidates = _availableDrivers.GetViewBetween(new Driver(string.Empty, capacity), _availableDrivers.Max);
-            return string.Empty;
-
-            if (candidates.Count > 0)
+            var driver = GetBestDriver(shipmentId, capacity);
+            if (driver != null)
             {
-                Driver bestCandidate = candidates.First();
-                foreach (var c in candidates)
-                {
-                    if (!c.RejectedExpiredOffers.Contains(shipmentId) &&
-                        c.AcceptedOfferCount < bestCandidate.AcceptedOfferCount)
-                    {
-                        bestCandidate = c;
-                    }
-                }
-
-                return bestCandidate.Name;
+                _nameToDriver[driver.Name].IncrementOfferCount();
+                return driver.Name;
             }
             else
             {
-                return _noValidDriversString;
+                return null;
             }
         }
 
@@ -71,20 +57,51 @@ namespace ConvoyOfferSystem
 
             switch (result)
             {
-                case OfferResult.Accept:
+                case OfferResult.accept:
                     // Driver accepted the job, remove from pool of available drivers
                     _availableDrivers.Remove(driver);
-                    driver.IncrementAcceptedOfferCount();
+                    driver.IncrementOfferCount();
                     return null;
 
-                case OfferResult.Expire:
-                case OfferResult.Pass:
+                case OfferResult.expire:
+                case OfferResult.pass:
                     // Offer expired or driver rejected, return next best driver
                     driver.AddRejectedExpiredOffer(shipmentId);
-                    return Shipment(shipmentId, requiredCapacity);
+                    return GetBestDriver(shipmentId, requiredCapacity).Name;
 
                 default:
                     return null;
+            }
+        }
+
+        private Driver GetBestDriver(int shipmentId, int capacity)
+        {
+            if (capacity > _availableDrivers.Max.Capacity)
+            {
+                return null;
+            }
+
+            var candidates = _availableDrivers.GetViewBetween(new Driver(string.Empty, capacity), _availableDrivers.Max);
+
+            if (candidates.Count > 0)
+            {
+                int minOfferCount = int.MaxValue;
+                Driver bestCandidate = candidates.First();
+                foreach (var c in candidates)
+                {
+                    if (!c.RejectedExpiredOffers.Contains(shipmentId) &&
+                        c.OfferCount < minOfferCount)
+                    {
+                        bestCandidate = c;
+                        minOfferCount = c.OfferCount;
+                    }
+                }
+
+                return bestCandidate;
+            }
+            else
+            {
+                return null;
             }
         }
     }

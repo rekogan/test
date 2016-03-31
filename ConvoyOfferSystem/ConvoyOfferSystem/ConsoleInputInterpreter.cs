@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem
 {
-    public class ConsoleInputInterpreter
+    public class ConsoleInOutInterpreter
     {
         public const string _endCommand = "end";
+        private const string _noValidDriversString = "NOBODY";
 
-        public static bool ProcessCommand(string line, IOfferSystem offerSystem)
+        public static bool ProcessCommand(string line, OfferSystem offerSystem)
         {
             if (string.IsNullOrWhiteSpace(line))
             {
                 Console.WriteLine("Error: Valid command is missing");
+                return true;
             }
-            var parts = line.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            var codeAndComment = line.Split(new char[] { '#' });
+
+            var parts = codeAndComment[0].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
             string command = parts[0].ToLowerInvariant();
             switch (command)
@@ -25,6 +30,7 @@ namespace ConvoyOfferSystem
                     if (parts.Length < 3)
                     {
                         OutputInsufficientArguments(parts[0]);
+                        return true;
                     }
 
                     int capacity;
@@ -41,6 +47,7 @@ namespace ConvoyOfferSystem
                     if (parts.Length < 3)
                     {
                         OutputInsufficientArguments(parts[0]);
+                        return true;
                     }
 
                     int shipmentId;
@@ -56,13 +63,22 @@ namespace ConvoyOfferSystem
                         return true;
                     }
 
-                    offerSystem.Shipment(shipmentId, shipCapacity);
+                    var result = offerSystem.Shipment(shipmentId, shipCapacity);
+                    if (result != null)
+                    {
+                        Console.WriteLine(result);
+                    }
+                    else
+                    {
+                        Console.WriteLine(_noValidDriversString);
+                    }
                     break;
 
                 case "offer":
                     if (parts.Length < 4)
                     {
                         OutputInsufficientArguments(parts[0]);
+                        return true;
                     }
 
                     if (!int.TryParse(parts[1], out shipmentId))
@@ -71,12 +87,23 @@ namespace ConvoyOfferSystem
                         return true;
                     }
                     OfferResult offerResult;
-                    if (!Enum.TryParse<OfferResult>(parts[2], out offerResult))
+                    if (!Enum.TryParse<OfferResult>(parts[2].ToLowerInvariant(), out offerResult))
                     {
                         OutputInvalidArgument(command, parts[2]);
                         return true;
                     }
-                    offerSystem.Offer(shipmentId, offerResult, GetDriverName(parts, 3));
+                    result = offerSystem.Offer(shipmentId, offerResult, GetDriverName(parts, 3));
+                    if (offerResult != OfferResult.accept)
+                    {
+                        if (result != null)
+                        {
+                            Console.WriteLine(result);
+                        }
+                        else
+                        {
+                            Console.WriteLine(_noValidDriversString);
+                        }
+                    }
                     break;
 
                 case _endCommand:

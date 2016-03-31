@@ -13,7 +13,7 @@ namespace ConvoyOfferSystem
             Name = name;
             Capacity = capacity;
             RejectedExpiredOffers = new HashSet<int>();
-            AcceptedOfferCount = 0;
+            OfferCount = 0;
         }
 
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace ConvoyOfferSystem
 
         public HashSet<int> RejectedExpiredOffers { get; private set; }
 
-        public int AcceptedOfferCount { get; private set; }
+        public int OfferCount { get; private set; }
 
         public void AddRejectedExpiredOffer(int shipmentId)
         {
@@ -30,9 +30,9 @@ namespace ConvoyOfferSystem
             RejectedExpiredOffers.Add(shipmentId);
         }
 
-        public void IncrementAcceptedOfferCount()
+        public void IncrementOfferCount()
         {
-            AcceptedOfferCount++;
+            OfferCount++;
         }
 
         int IComparable<Driver>.CompareTo(Driver other)
