@@ -1,1 +1,6 @@
 c:\users\jesse\documents\visual studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\bin\Debug\ConvoyOfferSystem.exe.config
+c:\users\jesse\documents\visual studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\bin\Debug\ConvoyOfferSystem.exe
+c:\users\jesse\documents\visual studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\bin\Debug\ConvoyOfferSystem.pdb
+c:\users\jesse\documents\visual studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\obj\Debug\ConvoyOfferSystem.csprojResolveAssemblyReference.cache
+c:\users\jesse\documents\visual studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\obj\Debug\ConvoyOfferSystem.exe
+c:\users\jesse\documents\visual studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\obj\Debug\ConvoyOfferSystem.pdb

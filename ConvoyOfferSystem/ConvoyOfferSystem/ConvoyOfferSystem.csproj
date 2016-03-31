@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleInputInterpreter.cs" />
+    <Compile Include="Driver.cs" />
+    <Compile Include="IOfferSystem.cs" />
+    <Compile Include="OfferResult.cs" />
+    <Compile Include="ConsoleOutputOfferSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
