@@ -8,10 +8,16 @@ namespace ConvoyOfferSystem
 {
     public class ConsoleInOutInterpreter
     {
-        public const string _endCommand = "end";
+        private const string _endCommand = "end";
         private const string _noValidDriversString = "NOBODY";
+        private IOutputWriter _outputWriter;
 
-        public static bool ProcessCommand(string line, OfferSystem offerSystem)
+        public ConsoleInOutInterpreter(IOutputWriter outputWriter)
+        {
+            _outputWriter = outputWriter;
+        }
+
+        public bool ProcessCommand(string line, OfferSystem offerSystem)
         {
             if (string.IsNullOrWhiteSpace(line))
             {

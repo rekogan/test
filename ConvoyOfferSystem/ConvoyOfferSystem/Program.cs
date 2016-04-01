@@ -11,10 +11,11 @@ namespace ConvoyOfferSystem
         static void Main(string[] args)
         {
             OfferSystem offerSystem = new OfferSystem();
+            ConsoleInOutInterpreter interpreter = new ConsoleInOutInterpreter(new ConsoleOutputWriter());
             while (true)
             {
                 var line = Console.ReadLine();
-                if (!ConsoleInOutInterpreter.ProcessCommand(line, offerSystem))
+                if (!interpreter.ProcessCommand(line, offerSystem))
                 {
                     break;
                 }

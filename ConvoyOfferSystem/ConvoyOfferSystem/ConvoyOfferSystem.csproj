@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleInputInterpreter.cs" />
+    <Compile Include="ConsoleOutputWriter.cs" />
     <Compile Include="Driver.cs" />
+    <Compile Include="IOutputWriter.cs" />
     <Compile Include="OfferResult.cs" />
     <Compile Include="OfferSystem.cs" />
     <Compile Include="Program.cs" />
