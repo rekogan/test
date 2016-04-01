@@ -37,7 +37,14 @@ namespace ConvoyOfferSystem
 
         int IComparable<Driver>.CompareTo(Driver other)
         {
-            return this.Capacity - other.Capacity;
+            if (this.Capacity != other.Capacity)
+            {
+                return this.Capacity - other.Capacity;
+            }
+            else
+            {
+                return this.Name.CompareTo(other.Name);
+            }
         }
     }
 }

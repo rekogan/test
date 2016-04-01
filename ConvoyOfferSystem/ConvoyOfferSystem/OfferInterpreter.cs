@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem
 {
-    public class ConsoleInOutInterpreter
+    public class OfferInterpreter
     {
         private const string _endCommand = "end";
         private const string _noValidDriversString = "NOBODY";
         private IOutputWriter _outputWriter;
 
-        public ConsoleInOutInterpreter(IOutputWriter outputWriter)
+        public OfferInterpreter(IOutputWriter outputWriter)
         {
             _outputWriter = outputWriter;
         }
@@ -72,11 +72,11 @@ namespace ConvoyOfferSystem
                     var result = offerSystem.Shipment(shipmentId, shipCapacity);
                     if (result != null)
                     {
-                        Console.WriteLine(result);
+                        _outputWriter.WriteLine(result);
                     }
                     else
                     {
-                        Console.WriteLine(_noValidDriversString);
+                        _outputWriter.WriteLine(_noValidDriversString);
                     }
                     break;
 
@@ -103,11 +103,11 @@ namespace ConvoyOfferSystem
                     {
                         if (result != null)
                         {
-                            Console.WriteLine(result);
+                            _outputWriter.WriteLine(result);
                         }
                         else
                         {
-                            Console.WriteLine(_noValidDriversString);
+                            _outputWriter.WriteLine(_noValidDriversString);
                         }
                     }
                     break;
@@ -139,19 +139,19 @@ namespace ConvoyOfferSystem
             return driverName.ToString();
         }
 
-        private static void OutputUnrecognizedCommand(string command)
+        private void OutputUnrecognizedCommand(string command)
         {
-            Console.WriteLine(string.Format("Error: Unrecognized command \'{0}\'", command));
+            _outputWriter.WriteLine(string.Format("Error: Unrecognized command \'{0}\'", command));
         }
 
-        private static void OutputInvalidArgument(string command, string arg)
+        private void OutputInvalidArgument(string command, string arg)
         {
-            Console.WriteLine(string.Format("Error: Invalid argument \'{0}\' for command \'{1}\'", arg, command));
+            _outputWriter.WriteLine(string.Format("Error: Invalid argument \'{0}\' for command \'{1}\'", arg, command));
         }
 
-        private static void OutputInsufficientArguments(string command)
+        private void OutputInsufficientArguments(string command)
         {
-            Console.WriteLine(string.Format("Error: Insufficient arguments provided for command \'{0}\'", command));
+            _outputWriter.WriteLine(string.Format("Error: Insufficient arguments provided for command \'{0}\'", command));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ConvoyOfferSystem
         static void Main(string[] args)
         {
             OfferSystem offerSystem = new OfferSystem();
-            ConsoleInOutInterpreter interpreter = new ConsoleInOutInterpreter(new ConsoleOutputWriter());
+            OfferInterpreter interpreter = new OfferInterpreter(new ConsoleOutputWriter());
             while (true)
             {
                 var line = Console.ReadLine();

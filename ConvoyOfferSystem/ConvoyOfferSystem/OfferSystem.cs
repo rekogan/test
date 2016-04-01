@@ -22,6 +22,7 @@ namespace ConvoyOfferSystem
         // Assume unique driver names?
         public void Driver(string driverName, int capacity)
         {
+            // TODO _availableDrivers should contain multiple drivers for a given capacity because SortedSet doesn't accept dups
             Driver d = new Driver(driverName, capacity);
             _availableDrivers.Add(d);
             _nameToDriver.Add(driverName, d);
@@ -59,7 +60,7 @@ namespace ConvoyOfferSystem
             {
                 case OfferResult.accept:
                     // Driver accepted the job, remove from pool of available drivers
-                    _availableDrivers.Remove(driver);
+                    //_availableDrivers.Remove(driver);
                     driver.IncrementOfferCount();
                     return null;
 
