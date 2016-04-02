@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConvoyOfferSystem.Test")]
+[assembly: AssemblyTitle("ConvoyOfferSystem.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ConvoyOfferSystem.Test")]
+[assembly: AssemblyProduct("ConvoyOfferSystem.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e9b8fe5b-1565-4a4f-8938-d6b353cc59df")]
+[assembly: Guid("1de9d50d-9453-4b7f-a553-73708a50489a")]
 
 // Version information for an assembly consists of the following four values:
 //

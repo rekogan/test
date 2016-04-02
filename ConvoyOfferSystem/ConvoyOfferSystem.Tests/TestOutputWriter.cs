@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConvoyOfferSystem.Test
+namespace ConvoyOfferSystem.Tests
 {
     internal class TestOutputWriter : IOutputWriter
     {
