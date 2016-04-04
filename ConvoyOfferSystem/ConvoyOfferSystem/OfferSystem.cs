@@ -30,7 +30,10 @@ namespace ConvoyOfferSystem
 
         public string Shipment(int shipmentId, int capacity)
         {
-            _shipmentToCapacity.Add(shipmentId, capacity);
+            if (!_shipmentToCapacity.ContainsKey(shipmentId))
+            {
+                _shipmentToCapacity.Add(shipmentId, capacity);
+            }
             var driver = GetBestDriver(shipmentId, capacity);
             if (driver != null)
             {
@@ -43,16 +46,20 @@ namespace ConvoyOfferSystem
             }
         }
 
-        public string Offer(int shipmentId, OfferResult result, string driverName)
+        public string Offer(int shipmentId, OfferResult result, string driverName, out bool hasError)
         {
+            hasError = false;
+
             Driver driver;
             if (!_nameToDriver.TryGetValue(driverName, out driver))
             {
+                hasError = true;
                 return string.Format("Error: unrecognized driver \'{0}\'", driverName);
             }
             int requiredCapacity;
             if (!_shipmentToCapacity.TryGetValue(shipmentId, out requiredCapacity))
             {
+                hasError = true;
                 return string.Format("Error: unrecognized shipment ID \'{0}\'", shipmentId);
             }
 
@@ -68,7 +75,8 @@ namespace ConvoyOfferSystem
                 case OfferResult.pass:
                     // Offer expired or driver rejected, return next best driver
                     driver.AddRejectedExpiredOffer(shipmentId);
-                    return GetBestDriver(shipmentId, requiredCapacity).Name;
+                    var bestDriver = GetBestDriver(shipmentId, requiredCapacity);
+                    return bestDriver == null ? null : bestDriver.Name;
 
                 default:
                     return null;
@@ -87,7 +95,7 @@ namespace ConvoyOfferSystem
             if (candidates.Count > 0)
             {
                 int minOfferCount = int.MaxValue;
-                Driver bestCandidate = candidates.First();
+                Driver bestCandidate = null;
                 foreach (var c in candidates)
                 {
                     if (!c.RejectedExpiredOffers.Contains(shipmentId) &&

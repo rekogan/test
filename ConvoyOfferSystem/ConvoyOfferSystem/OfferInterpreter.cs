@@ -98,8 +98,9 @@ namespace ConvoyOfferSystem
                         OutputInvalidArgument(command, parts[2]);
                         return true;
                     }
-                    result = offerSystem.Offer(shipmentId, offerResult, GetDriverName(parts, 3));
-                    if (offerResult != OfferResult.accept)
+                    bool hasError;
+                    result = offerSystem.Offer(shipmentId, offerResult, GetDriverName(parts, 3), out hasError);
+                    if (offerResult != OfferResult.accept || hasError)
                     {
                         if (result != null)
                         {

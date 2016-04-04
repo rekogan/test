@@ -35,9 +35,7 @@ namespace ConvoyOfferSystem.Tests
         internal void TestDriver()
         {
             var outputLines = Initialize();
-
-            List<string> commands = new List<string>();
-
+            
             // add single driver
             _interpreter.ProcessCommand("DRIVER 42 alice", _os);
             Assert.IsTrue(outputLines.Count == 0);
@@ -64,7 +62,6 @@ namespace ConvoyOfferSystem.Tests
             _interpreter.ProcessCommand("SHIPMENT 1 10", _os);
             Assert.IsTrue(outputLines[0] == OfferInterpreter.NoValidDriversString);
 
-            List<string> commands = new List<string>();
             _interpreter.ProcessCommand("DRIVER 42 alice", _os);
             _interpreter.ProcessCommand("DRIVER 30 bob", _os);
             _interpreter.ProcessCommand("DRIVER 20 charlie", _os);
@@ -78,28 +75,57 @@ namespace ConvoyOfferSystem.Tests
             _interpreter.ProcessCommand("SHIPMENT 3 42", _os);
             Assert.IsTrue(outputLines[2] == "alice");
 
+            // same shipment requested again - alice is the only driver capable of taking it again
+            _interpreter.ProcessCommand("SHIPMENT 3 42", _os);
+            Assert.IsTrue(outputLines[3] == "alice");
+
             // alice and bob both have capacity, but bob has had fewer offers
             _interpreter.ProcessCommand("SHIPMENT 4 25", _os);
-            Assert.IsTrue(outputLines[3] == "bob");
+            Assert.IsTrue(outputLines[4] == "bob");
         }
 
         internal void TestOffer()
         {
             var outputLines = Initialize();
 
-            List<string> commands = new List<string>();
             _interpreter.ProcessCommand("DRIVER 42 alice", _os);
-            Assert.IsTrue(outputLines.Count == 0);
-
             _interpreter.ProcessCommand("SHIPMENT 1 40", _os);
             Assert.IsTrue(outputLines[0] == "alice");
+            
+            // no output for accepted offer
+            _interpreter.ProcessCommand("OFFER 1 ACCEPT alice", _os);
+            Assert.IsTrue(outputLines.Count == 1);
+            
+            // clear offer system and reinitialize
+            outputLines = Initialize();
+
+            _interpreter.ProcessCommand("DRIVER 42 alice", _os);
+            _interpreter.ProcessCommand("DRIVER 45 charlie", _os);
+            _interpreter.ProcessCommand("DRIVER 30 bob", _os);
+            _interpreter.ProcessCommand("SHIPMENT 1 44", _os);
+            Assert.IsTrue(outputLines[0] == "charlie");
+
+            // no valid drivers with this capacity
+            _interpreter.ProcessCommand("OFFER 1 PASS charlie", _os);
+            Assert.IsTrue(outputLines[1] == OfferInterpreter.NoValidDriversString);
+
+            // already offered to charlie and he passed, no more valid drivers
+            _interpreter.ProcessCommand("SHIPMENT 1 44", _os);
+            Assert.IsTrue(outputLines[2] == OfferInterpreter.NoValidDriversString);
+
+            // nonexistant shipment ID
+            _interpreter.ProcessCommand("OFFER 2 ACCEPT alice", _os);
+            Assert.IsTrue(outputLines[3].ToLowerInvariant().StartsWith("error"));
+
+            // nonexistant driver
+            _interpreter.ProcessCommand("OFFER 1 ACCEPT foobar", _os);
+            Assert.IsTrue(outputLines[4].ToLowerInvariant().StartsWith("error"));
         }
 
         internal void TestScenario1()
         {
             var outputLines = Initialize();
 
-            List<string> commands = new List<string>();
             _interpreter.ProcessCommand("DRIVER 42 alice", _os);
             _interpreter.ProcessCommand("SHIPMENT 1 40", _os);
             Assert.IsTrue(outputLines[0] == "alice");
