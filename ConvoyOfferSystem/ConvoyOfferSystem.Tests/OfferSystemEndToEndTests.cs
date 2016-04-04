@@ -12,15 +12,12 @@ namespace ConvoyOfferSystem.Tests
         OfferSystem _os;
         OfferInterpreter _interpreter;
 
-        internal OfferSystemEndToEndTests()
-        {
-            
-        }
-
         internal void RunAll()
         {
             TestComments();
             TestDriver();
+            TestShipment();
+            TestOffer();
             TestScenario1();
         }
 
@@ -36,6 +33,57 @@ namespace ConvoyOfferSystem.Tests
         }
 
         internal void TestDriver()
+        {
+            var outputLines = Initialize();
+
+            List<string> commands = new List<string>();
+
+            // add single driver
+            _interpreter.ProcessCommand("DRIVER 42 alice", _os);
+            Assert.IsTrue(outputLines.Count == 0);
+
+            _interpreter.ProcessCommand("SHIPMENT 1 40", _os);
+            Assert.IsTrue(outputLines[0] == "alice");
+
+            // add multiple drivers with the same capacity
+            _interpreter.ProcessCommand("DRIVER 42 bob", _os);
+            _interpreter.ProcessCommand("SHIPMENT 2 40", _os);
+            Assert.IsTrue(outputLines[1] == "bob");
+
+            // driver with multi-word name
+            _interpreter.ProcessCommand("DRIVER 50 john doe", _os);
+            _interpreter.ProcessCommand("SHIPMENT 3 45", _os);
+            Assert.IsTrue(outputLines[2] == "john doe");
+        }
+
+        internal void TestShipment()
+        {
+            var outputLines = Initialize();
+
+            // no drivers added yet - NOBODY
+            _interpreter.ProcessCommand("SHIPMENT 1 10", _os);
+            Assert.IsTrue(outputLines[0] == OfferInterpreter.NoValidDriversString);
+
+            List<string> commands = new List<string>();
+            _interpreter.ProcessCommand("DRIVER 42 alice", _os);
+            _interpreter.ProcessCommand("DRIVER 30 bob", _os);
+            _interpreter.ProcessCommand("DRIVER 20 charlie", _os);
+            _interpreter.ProcessCommand("DRIVER 20 carol", _os);
+
+            // no drivers have sufficient capacity - NOBODY
+            _interpreter.ProcessCommand("SHIPMENT 2 50", _os);
+            Assert.IsTrue(outputLines[1] == OfferInterpreter.NoValidDriversString);
+
+            // shipment capacity exactly equals highest driver capacity
+            _interpreter.ProcessCommand("SHIPMENT 3 42", _os);
+            Assert.IsTrue(outputLines[2] == "alice");
+
+            // alice and bob both have capacity, but bob has had fewer offers
+            _interpreter.ProcessCommand("SHIPMENT 4 25", _os);
+            Assert.IsTrue(outputLines[3] == "bob");
+        }
+
+        internal void TestOffer()
         {
             var outputLines = Initialize();
 

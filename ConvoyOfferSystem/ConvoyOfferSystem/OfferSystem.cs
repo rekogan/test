@@ -77,7 +77,7 @@ namespace ConvoyOfferSystem
 
         private Driver GetBestDriver(int shipmentId, int capacity)
         {
-            if (capacity > _availableDrivers.Max.Capacity)
+            if (_availableDrivers.Count == 0 || capacity > _availableDrivers.Max.Capacity)
             {
                 return null;
             }

@@ -8,8 +8,8 @@ namespace ConvoyOfferSystem
 {
     public class OfferInterpreter
     {
+        public const string NoValidDriversString = "NOBODY";
         private const string _endCommand = "end";
-        private const string _noValidDriversString = "NOBODY";
         private IOutputWriter _outputWriter;
 
         public OfferInterpreter(IOutputWriter outputWriter)
@@ -76,7 +76,7 @@ namespace ConvoyOfferSystem
                     }
                     else
                     {
-                        _outputWriter.WriteLine(_noValidDriversString);
+                        _outputWriter.WriteLine(NoValidDriversString);
                     }
                     break;
 
@@ -107,7 +107,7 @@ namespace ConvoyOfferSystem
                         }
                         else
                         {
-                            _outputWriter.WriteLine(_noValidDriversString);
+                            _outputWriter.WriteLine(NoValidDriversString);
                         }
                     }
                     break;
