@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem.Tests
 {
+    /// <summary>
+    /// End-to-end tests of the offer system.
+    /// </summary>
     internal class OfferSystemEndToEndTests
     {
         OfferSystem _os;
@@ -26,10 +29,10 @@ namespace ConvoyOfferSystem.Tests
             var outputLines = Initialize();
             _interpreter.ProcessCommand("DRIVER 42 alice #foobar", _os);
             _interpreter.ProcessCommand("SHIPMENT 1 40 #asdf", _os);
-            Assert.IsTrue(outputLines[0] == "alice");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
 
             _interpreter.ProcessCommand("DRIVER 42 #foobar", _os);
-            Assert.IsTrue(outputLines[1].ToLowerInvariant().StartsWith("error"));
+            Assert.IsTrue(outputLines[outputLines.Count - 1].ToLowerInvariant().StartsWith("error"));
         }
 
         internal void TestDriver()
@@ -41,17 +44,17 @@ namespace ConvoyOfferSystem.Tests
             Assert.IsTrue(outputLines.Count == 0);
 
             _interpreter.ProcessCommand("SHIPMENT 1 40", _os);
-            Assert.IsTrue(outputLines[0] == "alice");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
 
             // add multiple drivers with the same capacity
             _interpreter.ProcessCommand("DRIVER 42 bob", _os);
             _interpreter.ProcessCommand("SHIPMENT 2 40", _os);
-            Assert.IsTrue(outputLines[1] == "bob");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "bob");
 
             // driver with multi-word name
             _interpreter.ProcessCommand("DRIVER 50 john doe", _os);
             _interpreter.ProcessCommand("SHIPMENT 3 45", _os);
-            Assert.IsTrue(outputLines[2] == "john doe");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "john doe");
         }
 
         internal void TestShipment()
@@ -60,7 +63,7 @@ namespace ConvoyOfferSystem.Tests
 
             // no drivers added yet - NOBODY
             _interpreter.ProcessCommand("SHIPMENT 1 10", _os);
-            Assert.IsTrue(outputLines[0] == OfferInterpreter.NoValidDriversString);
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == OfferInterpreter.NoValidDriversString);
 
             _interpreter.ProcessCommand("DRIVER 42 alice", _os);
             _interpreter.ProcessCommand("DRIVER 30 bob", _os);
@@ -69,19 +72,19 @@ namespace ConvoyOfferSystem.Tests
 
             // no drivers have sufficient capacity - NOBODY
             _interpreter.ProcessCommand("SHIPMENT 2 50", _os);
-            Assert.IsTrue(outputLines[1] == OfferInterpreter.NoValidDriversString);
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == OfferInterpreter.NoValidDriversString);
 
             // shipment capacity exactly equals highest driver capacity
             _interpreter.ProcessCommand("SHIPMENT 3 42", _os);
-            Assert.IsTrue(outputLines[2] == "alice");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
 
             // same shipment requested again - alice is the only driver capable of taking it again
             _interpreter.ProcessCommand("SHIPMENT 3 42", _os);
-            Assert.IsTrue(outputLines[3] == "alice");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
 
             // alice and bob both have capacity, but bob has had fewer offers
             _interpreter.ProcessCommand("SHIPMENT 4 25", _os);
-            Assert.IsTrue(outputLines[4] == "bob");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "bob");
         }
 
         internal void TestOffer()
@@ -103,23 +106,31 @@ namespace ConvoyOfferSystem.Tests
             _interpreter.ProcessCommand("DRIVER 45 charlie", _os);
             _interpreter.ProcessCommand("DRIVER 30 bob", _os);
             _interpreter.ProcessCommand("SHIPMENT 1 44", _os);
-            Assert.IsTrue(outputLines[0] == "charlie");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "charlie");
 
             // no valid drivers with this capacity
             _interpreter.ProcessCommand("OFFER 1 PASS charlie", _os);
-            Assert.IsTrue(outputLines[1] == OfferInterpreter.NoValidDriversString);
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == OfferInterpreter.NoValidDriversString);
 
             // already offered to charlie and he passed, no more valid drivers
             _interpreter.ProcessCommand("SHIPMENT 1 44", _os);
-            Assert.IsTrue(outputLines[2] == OfferInterpreter.NoValidDriversString);
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == OfferInterpreter.NoValidDriversString);
+
+            // alice has 2 offers and charlie has 1, offer a shipment to charlie that he rejects
+            _interpreter.ProcessCommand("SHIPMENT 3 40", _os);
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
+            _interpreter.ProcessCommand("SHIPMENT 4 40", _os);
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
+            _interpreter.ProcessCommand("OFFER 3 PASS charlie", _os);
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
 
             // nonexistant shipment ID
             _interpreter.ProcessCommand("OFFER 2 ACCEPT alice", _os);
-            Assert.IsTrue(outputLines[3].ToLowerInvariant().StartsWith("error"));
+            Assert.IsTrue(outputLines[outputLines.Count - 1].ToLowerInvariant().StartsWith("error"));
 
             // nonexistant driver
             _interpreter.ProcessCommand("OFFER 1 ACCEPT foobar", _os);
-            Assert.IsTrue(outputLines[4].ToLowerInvariant().StartsWith("error"));
+            Assert.IsTrue(outputLines[outputLines.Count - 1].ToLowerInvariant().StartsWith("error"));
         }
 
         internal void TestScenario1()
@@ -128,15 +139,15 @@ namespace ConvoyOfferSystem.Tests
 
             _interpreter.ProcessCommand("DRIVER 42 alice", _os);
             _interpreter.ProcessCommand("SHIPMENT 1 40", _os);
-            Assert.IsTrue(outputLines[0] == "alice");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "alice");
 
             _interpreter.ProcessCommand("DRIVER 50 bob", _os);
             _interpreter.ProcessCommand("DRIVER 20 carol", _os);
             _interpreter.ProcessCommand("SHIPMENT 2 40", _os);
-            Assert.IsTrue(outputLines[1] == "bob");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "bob");
 
             _interpreter.ProcessCommand("OFFER 1 PASS alice", _os);
-            Assert.IsTrue(outputLines[2] == "bob");
+            Assert.IsTrue(outputLines[outputLines.Count - 1] == "bob");
 
             _interpreter.ProcessCommand("OFFER 1 ACCEPT bob", _os);
         }

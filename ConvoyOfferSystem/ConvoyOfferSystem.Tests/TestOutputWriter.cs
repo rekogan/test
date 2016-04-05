@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem.Tests
 {
+    /// <summary>
+    /// Writes output to given collection of strings for testing purposes.
+    /// </summary>
     internal class TestOutputWriter : IOutputWriter
     {
         List<string> _outputLines;

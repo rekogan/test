@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem
 {
+    /// <summary>
+    /// Interprets individual commands, which can be DRIVER, SHIPMENT, or OFFER.
+    /// Outputs results of each command using the supplied IOutputWriter object.
+    /// </summary>
     public class OfferInterpreter
     {
         public const string NoValidDriversString = "NOBODY";
@@ -39,8 +43,8 @@ namespace ConvoyOfferSystem
                         return true;
                     }
 
-                    int capacity;
-                    if (!int.TryParse(parts[1], out capacity))
+                    uint capacity;
+                    if (!uint.TryParse(parts[1], out capacity))
                     {
                         OutputInvalidArgument(command, parts[1]);
                         return true;
@@ -56,14 +60,14 @@ namespace ConvoyOfferSystem
                         return true;
                     }
 
-                    int shipmentId;
-                    if (!int.TryParse(parts[1], out shipmentId))
+                    uint shipmentId;
+                    if (!uint.TryParse(parts[1], out shipmentId))
                     {
                         OutputInvalidArgument(command, parts[1]);
                         return true;
                     }
-                    int shipCapacity;
-                    if (!int.TryParse(parts[2], out shipCapacity))
+                    uint shipCapacity;
+                    if (!uint.TryParse(parts[2], out shipCapacity))
                     {
                         OutputInvalidArgument(command, parts[2]);
                         return true;
@@ -87,7 +91,7 @@ namespace ConvoyOfferSystem
                         return true;
                     }
 
-                    if (!int.TryParse(parts[1], out shipmentId))
+                    if (!uint.TryParse(parts[1], out shipmentId))
                     {
                         OutputInvalidArgument(command, parts[1]);
                         return true;
@@ -125,6 +129,9 @@ namespace ConvoyOfferSystem
             return true;
         }
 
+        /// <summary>
+        /// Gets full driver name, in case it's comprised of multiple tokens.
+        /// </summary>
         private static string GetDriverName(string[] parts, int startIndex)
         {
             StringBuilder driverName = new StringBuilder();
