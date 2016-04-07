@@ -1,9 +1,0 @@
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\bin\Debug\ConvoyOfferSystem.Tests.exe.config
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\bin\Debug\ConvoyOfferSystem.Tests.exe
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\bin\Debug\ConvoyOfferSystem.Tests.pdb
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\bin\Debug\ConvoyOfferSystem.exe
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\bin\Debug\ConvoyOfferSystem.pdb
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\obj\Debug\ConvoyOfferSystem.Tests.csprojResolveAssemblyReference.cache
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\obj\Debug\ConvoyOfferSystem.Tests.exe
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem.Tests\obj\Debug\ConvoyOfferSystem.Tests.pdb
