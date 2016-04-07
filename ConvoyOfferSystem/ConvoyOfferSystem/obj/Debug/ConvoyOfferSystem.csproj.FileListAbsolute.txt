@@ -1,5 +1,0 @@
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\bin\Debug\ConvoyOfferSystem.exe.config
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\bin\Debug\ConvoyOfferSystem.exe
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\bin\Debug\ConvoyOfferSystem.pdb
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\obj\Debug\ConvoyOfferSystem.exe
-C:\Users\jesse\Documents\Visual Studio 2015\Projects\ConvoyOfferSystem\ConvoyOfferSystem\obj\Debug\ConvoyOfferSystem.pdb
