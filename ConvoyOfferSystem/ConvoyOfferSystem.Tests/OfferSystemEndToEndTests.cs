@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem.Tests
 {
@@ -133,6 +129,7 @@ namespace ConvoyOfferSystem.Tests
             Assert.IsTrue(outputLines[outputLines.Count - 1].ToLowerInvariant().StartsWith("error"));
         }
 
+        // Supplied test scenario from the assignment prompt
         internal void TestScenario1()
         {
             var outputLines = Initialize();

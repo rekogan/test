@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConvoyOfferSystem.Tests
 {
@@ -14,6 +10,7 @@ namespace ConvoyOfferSystem.Tests
             try
             {
                 tests.RunAll();
+                Console.WriteLine("All tests passed!");
             }
             catch (Exception e)
             {
